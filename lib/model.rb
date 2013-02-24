@@ -77,7 +77,7 @@ class Binary < Model
       sql = "SELECT * FROM #{@@table_name} WHERE date = ?"
       rst = []
       @@db.execute(sql, date) do |row|
-        rst << [row[0], row[1], row[2].unpack('w5')].flatten
+        rst << row
       end
 
       rst
