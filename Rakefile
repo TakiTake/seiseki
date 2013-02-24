@@ -11,7 +11,7 @@ Bundler.require
 require File.join(@root, '/lib/model.rb')
 
 namespace :db do
-  task :migrate do
+  task :save do
     def save(&block)
       prng = Random.new(1234)
 
@@ -41,22 +41,22 @@ namespace :db do
       end
     end
   end
-end
 
-task :benchmark do
-  def select
-    @start.step(@end).each do |date|
-      yield(date.to_s)
-    end
-  end
-
-  Benchmark.bm do |x|
-    x.report('normal') do
-      select{ |date| Normal.find_by_date(date) }
+  task :select do
+    def select
+      @start.step(@end).each do |date|
+        yield(date.to_s)
+      end
     end
 
-    x.report('binary') do
-      select{ |date| Binary.find_by_date(date) }
+    Benchmark.bm do |x|
+      x.report('normal') do
+        select{ |date| Normal.find_by_date(date) }
+      end
+
+      x.report('binary') do
+        select{ |date| Binary.find_by_date(date) }
+      end
     end
   end
 end
