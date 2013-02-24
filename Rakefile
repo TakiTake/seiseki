@@ -6,11 +6,12 @@ Bundler.require
 
 @root = File.expand_path('..', __FILE__)
 @start = Date.new(2000,  1,  1)
-@end   = Date.new(2000, 12, 31)
+@end   = Date.new(2009, 12, 31)
 
 require File.join(@root, '/lib/model.rb')
 
 namespace :db do
+  desc 'Take the benchmark of the insert'
   task :save do
     def save(&block)
       prng = Random.new(1234)
@@ -42,6 +43,7 @@ namespace :db do
     end
   end
 
+  desc 'Take the benchmark of the select'
   task :select do
     def select
       @start.step(@end).each do |date|
